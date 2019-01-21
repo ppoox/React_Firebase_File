@@ -1,0 +1,14 @@
+.uploadBox {
+    width: 200px;
+    height: 100px;
+    display: inline-block;
+    margin: 100px auto;
+}
+
+button {
+    margin: 30px;
+}
+
+form {
+    margin-bottom: 50px;
+}
