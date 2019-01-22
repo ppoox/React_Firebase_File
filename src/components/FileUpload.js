@@ -8,14 +8,10 @@ class FileUpload extends Component {
     state = {
         files:[
             {
-                name:"Asd1",
-                dUrl:"asd"
+                name:"af_5-2.jpg",
+                dUrl:"https://firebasestorage.googleapis.com/v0/b/react-redux-firebase-55b61.appspot.com/o/images%2Faf_5-2.jpg?alt=media&token=e13cf793-1369-4ad9-a5bf-743563675113"
             },
-            {
-                name:"Asd2",
-                dUrl:"asd"
-            }
-        ]
+         ]
     }
 
     fileUpload= (e) => {
@@ -103,7 +99,7 @@ class FileUpload extends Component {
                     </thead>
                     <tbody>
                         {this.state.files.map(file => {
-                            return <FileList name={file.name} dUrl={file.dUrl} />                                
+                            return <FileList key={file.dUrl} name={file.name} dUrl={file.dUrl} />                                
                         })}
                     </tbody>
                 </table>
