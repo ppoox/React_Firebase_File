@@ -2,3 +2,6 @@ table {
     width: 500px;
     height: 100px;
 }
+#downFile{
+    display:none;
+}

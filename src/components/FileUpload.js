@@ -1,51 +1,47 @@
 import React, { Component } from 'react';
-import storage from '../config/firebaseConfig';
+import config from '../config/firebaseConfig';
 import firebase from 'firebase';
 import FileList from './FileList';
 import '../css/FileUpload.css';
 
 class FileUpload extends Component {
     state = {
-        files:[
-            {
-                name:"af_5-2.jpg",
-                dUrl:"https://firebasestorage.googleapis.com/v0/b/react-redux-firebase-55b61.appspot.com/o/images%2Faf_5-2.jpg?alt=media&token=e13cf793-1369-4ad9-a5bf-743563675113"
-            },
-         ]
+        files:[]          
     }
-
     fileUpload= (e) => {
         e.preventDefault();
-
-        const file=document.getElementById("file").files[0];
-        console.log(file);
-        var reader = new FileReader();
-        reader.onloadend = function (e) {
+        // 업로드할 파일정보 가져오기
+        const file=e.target.file.files[0];
+        // FileReader 객체 생성
+        const reader = new FileReader();
+        reader.onloadend = (e) => {
+            // blob변수에 전달된 파라미터의 배열과 업로드할 파일 타입을 담은 객체를 저장
             const blob = new Blob([e.target.result], { type: "image/jpeg" });
 
-            const storageUrl = 'images/';
-            const storageRef = firebase.storage().ref(storageUrl + file.name);
+            // 업로드할 파일을 저장할 스토리지의 url -> 파이어베이스 스토리지의 '폴더+파일이름' 으로 구성
+            const storageUrl = 'images/'+file.name;
+            // 스토리지 참조값 생성
+            const storageRef = firebase.storage().ref(storageUrl);
             console.warn(file); // Watch Screenshot
+            // blob(업로드할 파일 데이터가 담긴)을 업로드(put)하고 진행률에 따른 변화를 감지하기위해 변수에 저장
             const uploadTask = storageRef.put(blob);
             
-
-            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-            function(snapshot) {
+            // 업로드시 진행률에 따른 변화를 감지하기위한 이벤트
+            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, 
+            (snapshot) => {
                 // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 console.log('Upload is ' + progress + '% done');
                 switch (snapshot.state) {
-                case firebase.storage.TaskState.PAUSED: // or 'paused'
-                    console.log('Upload is paused');
-                    break;
-                case firebase.storage.TaskState.RUNNING: // or 'running'
-                    console.log('Upload is running');
-                    break;
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                        console.log('Upload is running');
+                        break;
                 }
-            }, function(error) {
-
-            // A full list of error codes is available at
-            // https://firebase.google.com/docs/storage/web/handle-errors
+            }, (error) => {
+           // 에러 발생시 상황에 따른 대처
             switch (error.code) {
                 case 'storage/unauthorized':
                 // User doesn't have permission to access the object
@@ -59,31 +55,30 @@ class FileUpload extends Component {
                 // Unknown error occurred, inspect error.serverResponse
                 break;
             }
-            }, function() {
-                // Upload completed successfully, now we can get the download URL
-                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            }, () => {
+                // 로드가 성공적으로 완료되면 이때부터 다운로드 url을 가져올수 있음
+                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                     console.log('File available at', downloadURL);
-                    // const obj = {
-                    //     name: file.name,
-                    //     dUrl: downloadURL
-                    // };
-                    // this.setState({
-                    //     files: this.state.files.concat(obj)
-                    // });
-                    // console.log(this.state.files);
+                    alert("업로드 완료");
+                    // state에 파일이름과 스토리지 url 저장
+                    const obj={
+                        name:file.name,
+                        storageUrl:'images/'+file.name
+                    }
+                    this.setState({
+                        files:this.state.files.concat(obj)
+                    })
                 });
             });
-          
         }
 
-        reader.onerror = function (e) {
+        reader.onerror = (e) => {
             console.log("Failed file read: " + e.toString());
         };
         reader.readAsArrayBuffer(file);
     }
 
     render() {
-        
         return (
             <div className="uploadBox">
                 <form onSubmit={this.fileUpload}>
@@ -99,7 +94,7 @@ class FileUpload extends Component {
                     </thead>
                     <tbody>
                         {this.state.files.map(file => {
-                            return <FileList key={file.dUrl} name={file.name} dUrl={file.dUrl} />                                
+                            return <FileList key={file.storageUrl} name={file.name} storageUrl={file.storageUrl} />                                
                         })}
                     </tbody>
                 </table>
