@@ -1,68 +1,24 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## React와 Firebase의 storage를 이용한 File upload와 download
 
-## Available Scripts
 
-In the project directory, you can run:
+**시작 :**      
+  config 폴더의 firebaseConfig.js에 본인 파이어베이스 콘솔의 웹프로젝트 정보 입력      
+  참고 => [https://firebase.google.com/docs/web/setup]   
 
-### `npm start`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**upload :**   
+   upload시에 인증이 필요하지만 여기서는 인증을 미구현했기 때문에   
+   본인 파이어베이스 콘솔의 스토리지에서 규칙을 모두 허용으로 수정    
+   (스토리지 들어가면 왼쪽 상단 드로우 메뉴 옆에서 수정)     
+   참고 => [https://firebase.google.com/docs/storage/security/start#sample-rules]
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+**download :**    
+download시의 cors 설정    
+            gstuil 설치 링크 [https://cloud.google.com/storage/docs/gsutil_install]   
+        설치후 config 폴더의 cors.json 실행 ->     
+        파일 있는 디렉토리에서 콘솔창에서 gsutil cors set cors.json gs://[your-cloud-storage-bucket] 입력     
+        [your-cloud-storage-bucket]은 본인 스토리지내 중앙 상단에 gs://~~~~~ 적혀있음   
+        "origin"란에 http://localhost:3000 은 로컬 도메인으로 접근 제한하겠다는 뜻    
+        ["*"] 으로 모든 도메인 접근 허용이나 원하는 도메인 입력으로 접근 제한 가능     
+       참고 => [https://firebase.google.com/docs/storage/web/download-files]     
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
