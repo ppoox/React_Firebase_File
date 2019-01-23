@@ -22,3 +22,7 @@ download시의 cors 설정
         ["*"] 으로 모든 도메인 접근 허용이나 원하는 도메인 입력으로 접근 제한 가능     
        참고 => [https://firebase.google.com/docs/storage/web/download-files]     
 
+
+**주의 !**      
+업로드후 보여지는 파일 리스트는 파이어베이스 스토리지에서 가져오는게 아닌        
+React의 state에 저장되고 보여주는 것 입니다.    
