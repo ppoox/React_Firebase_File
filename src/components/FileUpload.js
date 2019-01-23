@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import config from '../config/firebaseConfig';
-import firebase from 'firebase';
+import firebase from '../config/firebaseConfig';
+//import firebase from 'firebase';
 import FileList from './FileList';
 import '../css/FileUpload.css';
 

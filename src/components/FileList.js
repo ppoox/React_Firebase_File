@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../css/FileList.css';
-import firebase from 'firebase';
+import firebase from '../config/firebaseConfig';
 
 class FileList extends Component {
 
